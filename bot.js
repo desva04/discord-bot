@@ -255,8 +255,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Web server running on port ${PORT}`);
 
-    console.log("DISCORD_TOKEN:", process.env.TOKEN ? "ADA" : "TIDAK ADA");
+    console.log("TOKEN:", process.env.TOKEN ? "ADA" : "TIDAK ADA");
     
 });
-console.log("ENV TOKEN:", process.env.DISCORD_TOKEN);
-client.login(process.env.DISCORD_TOKEN);
+console.log("ENV TOKEN:", process.env.TOKEN);
+client.login(process.env.TOKEN);
