@@ -243,8 +243,8 @@ if (cmd === 'image' && cmdParts.length === 2) {
     }
 });
 
-        const express = require('express');
-const app = express();
+         const express = require('express');
+    const app = express();
 
 app.get('/', (req, res) => {
     res.send('Bot is alive!');
@@ -254,7 +254,7 @@ client.login(process.env.TOKEN)
  .then(() => console.log("✅ LOGIN SUCCESS"))
     .catch(err => console.error("❌ LOGIN ERROR:", err));
 
-const PORT = process.env.PORT;
+    const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Web server running on port ${PORT}`);
