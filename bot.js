@@ -258,5 +258,5 @@ app.listen(PORT, () => {
     console.log("DISCORD_TOKEN:", process.env.TOKEN ? "ADA" : "TIDAK ADA");
     
 });
-
+console.log("ENV TOKEN:", process.env.DISCORD_TOKEN);
 client.login(process.env.DISCORD_TOKEN);
