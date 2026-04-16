@@ -252,6 +252,8 @@ app.get('/', (req, res) => {
 
 client.login(process.env.TOKEN);
 
+const PORT = process.env.PORT;
+
 app.listen(PORT, () => {
     console.log(`Web server running on port ${PORT}`);
     console.log("TOKEN:", process.env.TOKEN ? "ADA" : "TIDAK ADA");
