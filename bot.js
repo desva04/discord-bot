@@ -250,12 +250,9 @@ app.get('/', (req, res) => {
     res.send('Bot is alive!');
 });
 
-const PORT = process.env.PORT || 3000;
+client.login(process.env.TOKEN);
+
 app.listen(PORT, () => {
     console.log(`Web server running on port ${PORT}`);
-
     console.log("TOKEN:", process.env.TOKEN ? "ADA" : "TIDAK ADA");
-    
 });
-console.log("ENV TOKEN:", process.env.TOKEN);
-client.login(process.env.TOKEN);
