@@ -70,6 +70,7 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
+    try {
     if (message.author.bot || !message.content.startsWith(',')) return;
     
     const args = message.content.slice(1).trim().split('\n').map(arg => arg.trim());
@@ -95,12 +96,12 @@ client.on('messageCreate', async (message) => {
             .addFields(
                 { 
                     name: '🖼️ **Gambar**', 
-                    value: '```,image|imgURL\nwarna\n\n,image|warna\nimgURL\nisi pesan```', 
+                    value: '```,image|imgURL\nwarna\n\n```', 
                     inline: false 
                 },
                 { 
                     name: '📝 **Embed**', 
-                    value: '```,embed|warna\nisi pesan\n\n,embed|judul|isi pesan|warna\n\n,embed|judul|isi pesan|warna|imgURL/gifURL```', 
+                    value: '```,embed|warna\nisi pesan\n\n,embed|warna|imgUrl\nisi pesan\n\n,embed|judul|isi pesan|warna\n\n,embed|judul|isi pesan|warna|imgURL/gifURL```', 
                     inline: false 
                 },
                 { 
@@ -153,23 +154,28 @@ client.on('messageCreate', async (message) => {
     return message.channel.send({ embeds: [embed] });
 }
 
-    // .image|warna (link + isi dari bawah)
-if (cmd === 'image' && cmdParts.length === 2) {
+    // .embed|warna|imgUrl
+if (cmd === 'embed' && cmdParts.length === 3) {
+
     const color = getColor(cmdParts[1]);
+    const imageUrl = cmdParts[2];
 
-    // ambil baris bawah
-    const lines = multiLineContent.split('\n').filter(Boolean);
+    // ambil semua isi di bawah (TANPA hapus baris kosong)
+    const description = message.content
+        .split(/\r?\n/)
+        .slice(1)
+        .join('\n'); // ❗ tidak pakai filter
 
-    const imageUrl = lines[0]; // baris pertama = link gambar
-    const description = lines.slice(1).join('\n'); // sisanya = isi
-
-    if (!imageUrl) return;
+    if (!imageUrl) {
+        return message.reply('Image URL tidak ada!');
+    }
 
     const embed = new EmbedBuilder()
         .setColor(color)
         .setImage(imageUrl);
 
-    if (description) {
+    // tetap kirim walau kosong / ada baris kosong
+    if (description !== undefined) {
         embed.setDescription(description);
     }
 
@@ -191,8 +197,8 @@ if (cmd === 'image' && cmdParts.length === 2) {
     if (cmd === 'embed' && cmdParts.length >= 5 && !cmdParts[5]) {
         const title = cmdParts[1];
         const description = [cmdParts[2], multiLineContent]
-  .filter(Boolean)
-  .join('\n\n');
+            .filter(Boolean)
+            .join('\n\n');
         const color = getColor(cmdParts[3]);
         const imageUrl = cmdParts[4];
         
@@ -209,8 +215,8 @@ if (cmd === 'image' && cmdParts.length === 2) {
     if (cmd === 'embed' && cmdParts.length >= 6) {
         const title = cmdParts[1];
         const description = [cmdParts[2], multiLineContent]
-  .filter(Boolean)
-  .join('\n\n');
+            .filter(Boolean)
+            .join('\n\n');
         const color = getColor(cmdParts[3]);
         const bannerUrl = cmdParts[4];
         const thumbUrl = cmdParts[5];
@@ -230,8 +236,8 @@ if (cmd === 'image' && cmdParts.length === 2) {
     if (cmd === 'embed' && cmdParts.length >= 4 && !cmdParts[4]) {
         const title = cmdParts[1];
         const description = [cmdParts[2], multiLineContent]
-  .filter(Boolean)
-  .join('\n\n');
+            .filter(Boolean)
+            .join('\n\n');
         const color = getColor(cmdParts[3]);
         
         const embed = new EmbedBuilder()
@@ -241,10 +247,15 @@ if (cmd === 'image' && cmdParts.length === 2) {
             
         return message.channel.send({ embeds: [embed] });
     }
+
+    } catch (err) {
+        console.error('❌ COMMAND ERROR:', err);
+        message.channel.send('❌ Terjadi error saat menjalankan command!');
+    }    
 });
 
-         const express = require('express');
-    const app = express();
+        const express = require('express');
+        const app = express();
 
 app.get('/', (req, res) => {
     res.send('Bot is alive!');
@@ -254,9 +265,18 @@ client.login(process.env.TOKEN)
  .then(() => console.log("✅ LOGIN SUCCESS"))
     .catch(err => console.error("❌ LOGIN ERROR:", err));
 
-    const PORT = process.env.PORT;
+        const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Web server running on port ${PORT}`);
     console.log("TOKEN:", process.env.TOKEN ? "ADA" : "TIDAK ADA");
 });
+
+process.on('unhandledRejection', (err) => {
+    console.error('❌ Unhandled Rejection:', err);
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('❌ Uncaught Exception:', err);
+});
+
