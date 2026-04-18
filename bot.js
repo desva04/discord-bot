@@ -119,7 +119,7 @@ client.on('messageCreate', async (message) => {
             .setFooter({ text: 'Never give up, great things take time ⏳' })
             .setTimestamp();
             
-        return sendAsUser(message, { embeds: [helpEmbed] });
+        return message.channel.send({ embeds: [helpEmbed] });
     }
     
     // LAINNYA → HAPUS USER CMD
@@ -156,7 +156,7 @@ client.on('messageCreate', async (message) => {
         .setDescription(`\n${description}\n`)
         .setColor(color);
 
-    return sendAsUser(message, { embeds: [embed] });
+    return message.channel.send({ embeds: [embed] });
 }
 
     // .embed|warna|imgUrl
@@ -184,7 +184,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         embed.setDescription(description);
     }
 
-    return sendAsUser(message, { embeds: [embed] });
+    return message.channel.send({ embeds: [embed] });
 }
 
     // .image|link
@@ -195,7 +195,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         if (!imageUrl) return;
         
         const embed = new EmbedBuilder().setColor(color).setImage(imageUrl);
-        return sendAsUser(message, { embeds: [embed] });
+        return message.channel.send({ embeds: [Embed] });
     }
 
     // .embed|judul|isi|warna|imageurl ← TAMBAHAN INI
@@ -213,7 +213,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
             .setColor(color)
             .setImage(imageUrl);
             
-        return sendAsUser(message, { embeds: [embed] });
+        return message.channel.send({ embeds: [embed] });
     }
 
     // .embed|judul|isi|warna|banner|thumb ← LENGKAP
@@ -234,7 +234,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         if (bannerUrl) embed.setImage(bannerUrl);
         if (thumbUrl) embed.setThumbnail(thumbUrl);
             
-        return sendAsUser(message, { embeds: [embed] });
+        return message.channel.send({ embeds: [embed] });
     }
 
     // .embed|judul|isi|warna ← DASAR
@@ -250,7 +250,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
             .setDescription(`\n${description}\n`)
             .setColor(color);
             
-        return sendAsUser(message, { embeds: [embed] });
+        return message.channel.send({ embeds: [embed] });
     }
 
     } catch (err) {
