@@ -153,7 +153,7 @@ client.on('messageCreate', async (message) => {
 }
 
         const embed = new EmbedBuilder()
-        .setDescription(`\n${text}\n`)
+        .setDescription(`\n${description}\n`)
         .setColor(color);
 
     return sendAsUser(message, { embeds: [embed] });
@@ -209,7 +209,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setDescription(`\n${text}\n`)
+            .setDescription(`\n${description}\n`)
             .setColor(color)
             .setImage(imageUrl);
             
@@ -228,7 +228,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setDescription(`\n${text}\n`)
+            .setDescription(`\n${description}\n`)
             .setColor(color);
             
         if (bannerUrl) embed.setImage(bannerUrl);
@@ -247,7 +247,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setDescription(`\n${text}\n`)
+            .setDescription(`\n${description}\n`)
             .setColor(color);
             
         return sendAsUser(message, { embeds: [embed] });
