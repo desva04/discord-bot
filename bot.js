@@ -82,11 +82,11 @@ client.on('messageCreate', async (message) => {
 
 async function sendAsUser(message, payload) {
     let webhook = (await message.channel.fetchWebhooks())
-        .find(wh => wh.name === 'VariesWebhook');
+        .find(wh => wh.name === 'Varies Support');
 
     if (!webhook) {
         webhook = await message.channel.createWebhook({
-            name: 'VariesWebhook'
+            name: 'Varies Support'
         });
     }
 
