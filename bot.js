@@ -79,6 +79,24 @@ client.on('messageCreate', async (message) => {
     const cmd = cmdParts[0]?.toLowerCase();
     const multiLineContent = args.slice(1).join('\n');
 
+    async function sendAsUser(message, content) {
+    let webhook = (await message.channel.fetchWebhooks())
+        .find(wh => wh.name === 'VariesWebhook');
+
+    if (!webhook) {
+        webhook = await message.channel.createWebhook({
+            name: 'VariesWebhook'
+        });
+    }
+
+    await webhook.send({
+        content: content,
+        username: message.member?.displayName || message.author.username,
+        avatarURL: message.author.displayAvatarURL(),
+        embeds: [embed]
+    });
+}
+
     // cek bot
     if (cmd === 'ping') {
     const sent = await message.channel.send('🏓 Pinging...');
@@ -118,7 +136,7 @@ client.on('messageCreate', async (message) => {
             .setFooter({ text: 'Never give up, great things take time ⏳' })
             .setTimestamp();
             
-        return message.channel.send({ embeds: [helpEmbed] });
+        return sendAsUser(message, { embeds: [helpEmbed] });
     }
     
     // LAINNYA → HAPUS USER CMD
@@ -147,11 +165,15 @@ client.on('messageCreate', async (message) => {
 
     if (!description) return;
 
+    if (description.length > 2000) {
+    return message.reply('Teks terlalu panjang!');
+}
+
         const embed = new EmbedBuilder()
         .setDescription(description)
         .setColor(color);
 
-    return message.channel.send({ embeds: [embed] });
+    return sendAsUser(message, { embeds: [embed] });
 }
 
     // .embed|warna|imgUrl
@@ -179,7 +201,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         embed.setDescription(description);
     }
 
-    return message.channel.send({ embeds: [embed] });
+    return sendAsUser(message, { embeds: [embed] });
 }
 
     // .image|link
@@ -190,7 +212,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         if (!imageUrl) return;
         
         const embed = new EmbedBuilder().setColor(color).setImage(imageUrl);
-        return message.channel.send({ embeds: [embed] });
+        return sendAsUser(message, { embeds: [embed] });
     }
 
     // .embed|judul|isi|warna|imageurl ← TAMBAHAN INI
@@ -208,7 +230,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
             .setColor(color)
             .setImage(imageUrl);
             
-        return message.channel.send({ embeds: [embed] });
+        return sendAsUser(message, { embeds: [embed] });
     }
 
     // .embed|judul|isi|warna|banner|thumb ← LENGKAP
@@ -229,7 +251,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         if (bannerUrl) embed.setImage(bannerUrl);
         if (thumbUrl) embed.setThumbnail(thumbUrl);
             
-        return message.channel.send({ embeds: [embed] });
+        return sendAsUser(message, { embeds: [embed] });
     }
 
     // .embed|judul|isi|warna ← DASAR
@@ -245,7 +267,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
             .setDescription(description)
             .setColor(color);
             
-        return message.channel.send({ embeds: [embed] });
+        return sendAsUser(message, { embeds: [embed] });
     }
 
     } catch (err) {
