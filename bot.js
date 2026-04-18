@@ -80,21 +80,6 @@ client.on('messageCreate', async (message) => {
     const cmd = cmdParts[0]?.toLowerCase();
     const multiLineContent = args.slice(1).join('\n');
 
-async function sendAsUser(message, payload) {
-    let webhook = (await message.channel.fetchWebhooks())
-        .find(wh => wh.name === 'Varies Support');
-
-    if (!webhook) {
-        webhook = await message.channel.createWebhook({
-            name: 'Varies Support'
-        });
-    }
-
-    await webhook.send({
-        ...payload 
-    });
-}
-
     // cek bot
     if (cmd === 'ping') {
     const sent = await message.channel.send('🏓 Pinging...');
@@ -163,12 +148,12 @@ async function sendAsUser(message, payload) {
 
     if (!description) return;
 
-    if (description.length > 2000) {
+        if (description.length > 2000) {
     return message.reply('Teks terlalu panjang!');
 }
 
         const embed = new EmbedBuilder()
-        .setDescription(description)
+        .setDescription(`\n${text}\n`)
         .setColor(color);
 
     return sendAsUser(message, { embeds: [embed] });
@@ -224,7 +209,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setDescription(description)
+            .setDescription(`\n${text}\n`)
             .setColor(color)
             .setImage(imageUrl);
             
@@ -243,7 +228,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setDescription(description)
+            .setDescription(`\n${text}\n`)
             .setColor(color);
             
         if (bannerUrl) embed.setImage(bannerUrl);
@@ -262,7 +247,7 @@ if (cmd === 'embed' && cmdParts.length === 3) {
         
         const embed = new EmbedBuilder()
             .setTitle(title)
-            .setDescription(description)
+            .setDescription(`\n${text}\n`)
             .setColor(color);
             
         return sendAsUser(message, { embeds: [embed] });
