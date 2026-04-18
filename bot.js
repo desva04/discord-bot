@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Client, GatewayIntentBits, EmbedBuilder, ActivityType } = require('discord.js');
 
 const client = new Client({
@@ -79,7 +80,7 @@ client.on('messageCreate', async (message) => {
     const cmd = cmdParts[0]?.toLowerCase();
     const multiLineContent = args.slice(1).join('\n');
 
-    async function sendAsUser(message, content) {
+    async function sendAsUser(message, payload) {
     let webhook = (await message.channel.fetchWebhooks())
         .find(wh => wh.name === 'VariesWebhook');
 
@@ -90,10 +91,9 @@ client.on('messageCreate', async (message) => {
     }
 
     await webhook.send({
-        content: content,
         username: message.member?.displayName || message.author.username,
         avatarURL: message.author.displayAvatarURL(),
-        embeds: [embed]
+        ...payload 
     });
 }
 
